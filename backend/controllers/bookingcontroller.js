@@ -12,6 +12,14 @@ const createBooking = async (req, res) => {
       return res.status(404).json({ error: 'Customer not found' });
     }
 
+    // Validate booking date
+    const today = new Date();
+    const bookingDateObj = new Date(booking_date);
+
+    if (bookingDateObj < today) {
+      return res.status(400).json({ error: 'Booking date cannot be before today' });
+    }
+
     const booking = await Booking.create({
       slot_id,
       customer_id,
