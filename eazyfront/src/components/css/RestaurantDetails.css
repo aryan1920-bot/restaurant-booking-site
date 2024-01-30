@@ -1,0 +1,104 @@
+/* RestaurantDetails.css */
+.restaurant-details-container {
+  /* background-image: url("D:\edproject\react\eazy\src\images\bg.jpg"); */
+  max-width: 800px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 18px;
+  /* font-size: 30px; */
+  /* filter: blur(10px); */
+}
+
+
+/* .blur-background {
+  filter: blur(10px);
+} */
+
+
+.restaurant-details {
+  background-color: #ff9a52c3;
+  /* font-size: 40px; */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-image {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.restaurant-name {
+  font-size: 2.2rem;
+  
+  margin-bottom: 10px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #ffffff;
+}
+
+.restaurant-info {
+  margin: 5px 0;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #ff0000a6;
+  font-size: 20px;
+  
+}
+
+.booking-section {
+  margin-top: 20px;
+  width:50%;
+  border-radius: 10px;
+  color:#ff2f2f;
+  /* background-color: #ff00005b; */
+  input,
+  select,
+  button {
+    margin-bottom: 15px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 10px;
+    color: #ff6a00;
+    border: none;
+    background-color: #ffead7;
+    border-radius: 8px; /* Set the border-radius for a squircle shape */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+    /* width: 100%; */
+    box-sizing: border-box;
+    font-size: 16px;
+    width: 55%;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  button {
+    background-color: rgb(255, 98, 0); /* Add your preferred color for the button */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 50%;
+    /* margin-left: 80px; */
+  }
+
+  button:hover {
+    background-color: #0364ff; /* Change the background color on hover */
+  }
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+
+

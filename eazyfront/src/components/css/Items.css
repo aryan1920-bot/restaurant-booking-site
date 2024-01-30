@@ -1,0 +1,53 @@
+/* styles.css */
+
+.card {
+  margin-left: auto;
+  margin-right: auto;
+  gap: 10%;
+  width: 20rem;
+  height: 23rem;
+  overflow: hidden;
+  margin: 0px 10px 20px;
+  padding: 20px 20px 20px 20px;
+  background-color: #fc732f43;
+  border: none;
+}
+
+
+.card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.container {
+  text-align: center;
+  /* color: #fff; */
+  gap:10px;
+  margin-top:10px;
+  margin-right: 50px;
+}
+
+.row {
+  display: flex;
+  /* justify-content: space-around; */
+}
+
+.my-3 {
+  color: #ff7d19;
+  text-shadow: none;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  margin-top: 10px;
+  margin-bottom: 3rem;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}

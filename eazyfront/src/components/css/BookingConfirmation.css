@@ -1,0 +1,47 @@
+/* BookingConfirmation.css */
+.confirmation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+  
+}
+
+.tick {
+  width: 20%; /* Adjust the width of the image container */
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.confirmation-card {
+  background-color: transparent;
+  /* padding: 20px; */
+  border-radius: 10px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  margin-top: 20px;
+}
+
+.confirmation-card h2 {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  font-size: 80px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: rgb(255, 0, 0);
+  text-align: center;
+}
+
+.back-to-home-link {
+  margin-top: 20px;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.back-to-home-link:hover {
+  text-decoration: underline;
+}
