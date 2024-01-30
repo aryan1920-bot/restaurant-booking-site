@@ -1,7 +1,7 @@
 // Header.js
 
 import React, { useState } from "react";
-import "./css/Header.css"; // Import the shared CSS styles
+import "./css/Header.css"; 
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -29,15 +29,7 @@ const Header = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearchInputChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    // Add logic to handle search submission (e.g., navigate to a search results page)
-    console.log("Search submitted:", searchQuery);
-  };
+  
 
   return (
     <header className="header">

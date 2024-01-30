@@ -23,7 +23,7 @@ const Login = () => {
   const  newuser=()=>{
     navigate("/");
   }
-  //changehere
+
   const gotohome = async () => {
     try {
       const response = await fetch("http://localhost:3005/customers/signin", {
@@ -38,17 +38,14 @@ const Login = () => {
         throw new Error("Login failed");
       }
 
-      // Assuming the API returns a token on successful login
       const { token } = await response.json();
 
-      // Store the token in localStorage or a state management solution
       localStorage.setItem("authToken", token);
 
-      // Redirect to the home page or any other desired page on successful login
       navigate("/home");
     } catch (error) {
       console.error("Error during login:", error);
-      // Handle login failure (show error message, etc.)
+  
     }
   };
   

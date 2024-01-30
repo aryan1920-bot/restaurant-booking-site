@@ -31,7 +31,7 @@ const HomePage = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Add logic to handle search submission (e.g., filter and update the list of restaurants)
+    // Add logic
     const filtered = Items.filter(
       (restaurant) =>
         restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

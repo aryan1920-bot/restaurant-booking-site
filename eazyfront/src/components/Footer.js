@@ -7,17 +7,15 @@ const Footer = () => {
 
   return (
     <footer id="contact">
-      {/* Contact information */}
+      
       <section>
         <h2 className='fields'>Phone Numbers</h2>
-        {/* <p>Phone Numbers:</p> */}
         <ul>
           <li>Main Office: (+91) 89XXXXXXXX</li>
           <li>Support: (+91) 93XXXXXXXXXX </li>
         </ul>
       </section>
 
-      {/* Email addresses */}
       <section>
         <h2 className='fields'>Email Addresses</h2>
         <p>
@@ -28,7 +26,6 @@ const Footer = () => {
         </p>
       </section>
 
-      {/* Social media handles */}
       <section>
         <h2 className='fields'>Social Media</h2>
         <p>

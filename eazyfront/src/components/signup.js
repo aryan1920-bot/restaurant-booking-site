@@ -1,3 +1,4 @@
+//signup
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/login.css";
@@ -6,7 +7,6 @@ import Footer from "./Footer";
 const Signup = () => {
   const navigate = useNavigate();
 
-  // const [action, setAction] = useState("Signup");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,7 +20,6 @@ const Signup = () => {
       [e.target.name]: e.target.value,
     });
   };
-  //change here
   const handleSignup = async () => {
     try {
       const response = await fetch("http://localhost:3005/customers/signup", {
@@ -36,17 +35,15 @@ const Signup = () => {
       if (response.ok) {
         console.log("Signup successful:", data);
 
-        // Redirect to another page if needed
         navigate("/login");
       } else {
         console.error("Signup failed:", data);
 
-        // Handle error, show error message, etc.
+
       }
     } catch (error) {
       console.error("Error during signup:", error);
 
-      // Handle error, show error message, etc.
     }
   };
 
