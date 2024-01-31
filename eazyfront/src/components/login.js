@@ -29,23 +29,26 @@ const Login = () => {
       const response = await fetch("http://localhost:3005/customers/signin", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (!response.ok) {
         throw new Error("Login failed");
       }
-
-      const { token } = await response.json();
-
-      localStorage.setItem("authToken", token);
-
+  
+      const responseData = await response.json();
+  
+      // Store the access token in localStorage
+      localStorage.setItem("accessToken", responseData.meta.AccessToken);
+      localStorage.setItem("userEmail", responseData.user.email);
+  
+      // Navigate to the "/home" page
       navigate("/home");
     } catch (error) {
       console.error("Error during login:", error);
-  
     }
   };
   

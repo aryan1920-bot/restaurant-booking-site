@@ -41,20 +41,20 @@ const HomePage = () => {
     setFilteredRestaurants(filtered);
   };
 
-  useEffect(() => {
-    const fetchRestaurantIds = async () => {
-      try {
-        const response = await fetch("/sample.json");
-        const data = await response.json();
-        const ids = data.map((restaurant) => restaurant.id);
-        setRestaurantIds(ids);
-      } catch (error) {
-        console.error("Error fetching restaurant IDs:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchRestaurantIds = async () => {
+  //     try {
+  //       const response = await fetch("/sample.json");
+  //       const data = await response.json();
+  //       const ids = data.map((restaurant) => restaurant.id);
+  //       setRestaurantIds(ids);
+  //     } catch (error) {
+  //       console.error("Error fetching restaurant IDs:", error);
+  //     }
+  //   };
 
-    fetchRestaurantIds();
-  }, []);
+  //   fetchRestaurantIds();
+  // }, []);
   return (
     <div className="home-container">
       <Header/>
