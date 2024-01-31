@@ -21,24 +21,9 @@ const HomePage = () => {
 
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
-  const handleCardClick = (restaurant) => {
-    setSelectedRestaurant(restaurant);
-  };
-
-  const handleSearchInputChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    const filtered = Items.filter(
-      (restaurant) =>
-        restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        restaurant.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        restaurant.cuisineType.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredRestaurants(filtered);
-  };
+  const handlemeal=()=>{
+    window.alert("Feature coming soon");
+  }
 
   const userName = localStorage.getItem("user_name");
 
@@ -71,6 +56,7 @@ const HomePage = () => {
             data-tooltip="Breakfast"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={handlemeal}
           >
             Near me
           </button>
@@ -79,6 +65,7 @@ const HomePage = () => {
             data-tooltip="Breakfast"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={handlemeal}
           >
             Breakfast
             
@@ -88,6 +75,7 @@ const HomePage = () => {
             data-tooltip="Lunch"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={handlemeal}
           >
             Lunch
           </button>
@@ -96,14 +84,16 @@ const HomePage = () => {
             data-tooltip="Dinner"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={handlemeal}
           >
             Dinner
           </button>
           <button
             className="meal-btn"
-            data-tooltip="Breakfast"
+            data-tooltip="Bar/pub"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={handlemeal}
           >
             Bar/Pub
           </button>
