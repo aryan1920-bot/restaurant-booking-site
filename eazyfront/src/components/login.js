@@ -36,6 +36,7 @@ const Login = () => {
       });
   
       if (!response.ok) {
+        window.alert("Login Failed");
         throw new Error("Login failed");
       }
   
