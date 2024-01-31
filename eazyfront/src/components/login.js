@@ -24,6 +24,10 @@ const Login = () => {
     navigate("/");
   }
 
+  const forgot=()=>{
+    window.alert("Feature coming soon !");
+  }
+
   const gotohome = async () => {
     try {
       const response = await fetch("http://localhost:3005/customers/signin", {
@@ -86,7 +90,7 @@ const Login = () => {
           </div>
         </div>
         <div className="forgot-password">
-          Forgot Password? <span>Click here</span>
+          Forgot Password? <span onClick={forgot}>Click here</span>
         </div>
         <div className="forgot-password">
           New user? <span onClick={newuser}>Sign up</span>
