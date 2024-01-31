@@ -36,6 +36,8 @@ module.exports = (sequelize, DataTypes) => {
           field:" updated_at",
         },
       });
-      
+      Slot.associate = (models) => {
+        Slot.belongsTo(models.Restaurants, { foreignKey: 'restaurant_id' });
+      };
       return Slot
 }
