@@ -29,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
           field:" updated_at",
         },
       });
-      
+      Restaurants.associate = (models) => {
+        Restaurants.hasMany(models.Slot, { foreignKey: 'restaurant_id' });
+      };
       return Restaurants
 }

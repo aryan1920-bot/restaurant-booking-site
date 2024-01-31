@@ -13,7 +13,7 @@ app.use(cors({origin: "http://localhost:3000"}));
 app.use("/restaurants", require("./routes/restaurantsroutes"));
 app.use("/customers", require("./routes/customersroutes"));
 app.use("/bookings", require("./routes/bookingroutes"));
-
+app.use("/slots", require("./routes/slotsroutes"));
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
