@@ -8,8 +8,17 @@
   
 }
 
+.confirmation-card p {
+  color: rgb(255, 0, 30);
+  padding: 10px;
+  text-align: center;
+  font-size: 25px;
+  font-family:'Luckiest Guy', cursive;
+  /* margin-bottom: 40px; */
+}
+
 .tick {
-  width: 20%; /* Adjust the width of the image container */
+  width: 18.129%; /* Adjust the width of the image container */
   align-items: center;
   margin-left: auto;
   margin-right: auto;

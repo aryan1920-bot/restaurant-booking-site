@@ -6,6 +6,7 @@ import Footer from "./Footer";
 
 const RestaurantDetails = () => {
   const [restaurantData, setRestaurantData] = useState(null);
+  const [data, setData] = useState(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState("");
   const [numberOfGuests, setNumberOfGuests] = useState(1);
@@ -18,23 +19,24 @@ const RestaurantDetails = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/restaurants/byId/${id}`
+          `http://localhost:3005/slots/${id}`
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
-
         const data = await response.json();
+        setData(data);
         console.log("Fetched data:", data);
+        
 
-        setRestaurantData(data);
+        setRestaurantData(data.Restaurant);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, []);
 
   const generateTimeSlots = () => {
     const currentDate = new Date();
@@ -66,7 +68,6 @@ const RestaurantDetails = () => {
     if (
       !selectedDate ||
       !selectedSlot ||
-      numberOfGuests < 1 ||
       phoneNumber < 1000000000
     ) {
       // console.error("Please provide valid booking details");
@@ -80,22 +81,25 @@ const RestaurantDetails = () => {
       try {
         const customer_id = localStorage.getItem("user_id");
         const customer_name = localStorage.getItem("user_name");
+        const token=localStorage.getItem("accessToken");
         const response = await fetch(
           "http://localhost:3005/bookings/createBooking",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
-              // slot_id: restaurantData.id,
+              slot_id: data.id,
               customer_id: customer_id,
               customer_name: customer_name,
               num_guests: numberOfGuests,
               booking_date: selectedDate,
-              contact_number: phoneNumber, // Add the contact number to the request
+              contact_number: phoneNumber,
             }),
-          }
+          },
+          // console.log({token})
         );
 
         if (!response.ok) {
@@ -104,14 +108,19 @@ const RestaurantDetails = () => {
 
         console.log("Booking created successfully");
 
-        navigate("/BookingConfirmation");
+        navigate("/BookingConfirmation", {
+          state: {
+            bookingDetails: {
+              restaurantName: restaurantData.name,
+              selectedDate: selectedDate,
+              selectedSlot: selectedSlot,
+            },
+          },
+        });
       } catch (error) {
         console.error("Error creating booking:", error);
-        // Handle error, show an error message, etc.
       }
     } else {
-      // User chose to modify, you can implement the logic to handle modifications here
-      // For example, reset the form or navigate to a modification page
       console.log("User chose to modify the booking");
     }
   };

@@ -1,13 +1,14 @@
 // BookingConfirmation.js
 import React from "react";
-import { Link } from "react-router-dom";
 import "./css/BookingConfirmation.css"; // Create a CSS file for styling'
 import tick from "../images/tick.png"
 import Header from "./Header";
 import Footer from "./Footer";
+import { useLocation } from "react-router-dom";
 
-const BookingConfirmation = ({ bookingDetails }) => {
-  // const { restaurantName, selectedDate, selectedSlot } = bookingDetails;
+const BookingConfirmation = ({}) => {
+  const location = useLocation();
+  const { bookingDetails } = location.state || {};
 
   return (
     <div>
@@ -16,9 +17,9 @@ const BookingConfirmation = ({ bookingDetails }) => {
     <div className="confirmation-container">
       <div className="confirmation-card">
       <h2>Booking Confirmed!</h2>
-        {/* <p>Your booking is confirmed.</p> */}
-        {/* <p>See you at {restaurantName} for {selectedSlot} on {selectedDate}.</p> */}
-      </div>
+      <p>Meet us at {' '} <strong>{bookingDetails.restaurantName}</strong>{' '} around {' '}<strong>{bookingDetails.selectedSlot}</strong>{' '} on {' '}<strong>{bookingDetails.selectedDate}</strong>
+      😄🍴</p>
+</div>
       </div>   
       <Footer/>  
     </div>
