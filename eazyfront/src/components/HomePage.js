@@ -31,7 +31,6 @@ const HomePage = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Add logic
     const filtered = Items.filter(
       (restaurant) =>
         restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -41,25 +40,13 @@ const HomePage = () => {
     setFilteredRestaurants(filtered);
   };
 
-  // useEffect(() => {
-  //   const fetchRestaurantIds = async () => {
-  //     try {
-  //       const response = await fetch("/sample.json");
-  //       const data = await response.json();
-  //       const ids = data.map((restaurant) => restaurant.id);
-  //       setRestaurantIds(ids);
-  //     } catch (error) {
-  //       console.error("Error fetching restaurant IDs:", error);
-  //     }
-  //   };
+  const userName = localStorage.getItem("user_name");
 
-  //   fetchRestaurantIds();
-  // }, []);
   return (
     <div className="home-container">
       <Header/>
       <div className="content">
-        <h2>WELCOME FOODIE !!</h2>
+        <h2>{userName ? `WELCOME ${userName.toUpperCase()} !!` : "WELCOME FOODIE !!"}</h2>
         {/* <div className="search-bar">
           <form onSubmit={handleSearchSubmit}>
             <input
