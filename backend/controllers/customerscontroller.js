@@ -46,6 +46,10 @@ const loginUser = asyncHandler(async (req, res) => {
             email: user.email,
             password: user.password,
           },
+          customer: {
+            customer_id: user.id,
+            customer_name: user.name
+          },
           meta:{
             "AccessToken": token,
           }

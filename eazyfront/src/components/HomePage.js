@@ -60,7 +60,7 @@ const HomePage = () => {
       <Header/>
       <div className="content">
         <h2>WELCOME FOODIE !!</h2>
-        <div className="search-bar">
+        {/* <div className="search-bar">
           <form onSubmit={handleSearchSubmit}>
             <input
               type="text"
@@ -73,7 +73,7 @@ const HomePage = () => {
             />
             <button type="submit">Search</button>
           </form>
-        </div>
+        </div> */}
         <div className="offer-section">
           <img src={salad} alt="Special Offer" className="salad" />
         </div>

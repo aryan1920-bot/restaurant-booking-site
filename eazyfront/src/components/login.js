@@ -43,7 +43,8 @@ const Login = () => {
   
       // Store the access token in localStorage
       localStorage.setItem("accessToken", responseData.meta.AccessToken);
-      localStorage.setItem("userEmail", responseData.user.email);
+      localStorage.setItem("user_id", responseData.customer.customer_id);
+      localStorage.setItem("user_name", responseData.customer.customer_name);
   
       // Navigate to the "/home" page
       navigate("/home");

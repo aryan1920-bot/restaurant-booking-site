@@ -12,18 +12,20 @@ const RestaurantDetails = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
-  const currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3005/restaurants/byId/${id}`);
+        const response = await fetch(
+          `http://localhost:3005/restaurants/byId/${id}`
+        );
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
 
         const data = await response.json();
-        console.log("Fetched data:", data); 
+        console.log("Fetched data:", data);
 
         setRestaurantData(data);
       } catch (error) {
@@ -34,61 +36,76 @@ const RestaurantDetails = () => {
     fetchData();
   }, [id]);
 
-  
   const generateTimeSlots = () => {
     const currentDate = new Date();
     const startTime = new Date(currentDate);
     startTime.setHours(9, 0, 0); // Set start time to 09:00:00
-    
+
     const endTime = new Date(currentDate);
     endTime.setHours(18, 0, 0); // Set end time to 21:00:00
-    
+
     const timeSlots = [];
     let currentTime = new Date(startTime);
-    
+
     while (currentTime <= endTime) {
-      timeSlots.push(currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      timeSlots.push(
+        currentTime.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
       currentTime.setHours(currentTime.getHours() + 1);
     }
-    
+
     return timeSlots;
   };
-  
+
   const timeSlots = generateTimeSlots();
 
   const handleBookNowClick = async () => {
-    if (!selectedDate || !selectedSlot || numberOfGuests < 1 || phoneNumber < 1000000000) {
+    if (
+      !selectedDate ||
+      !selectedSlot ||
+      numberOfGuests < 1 ||
+      phoneNumber < 1000000000
+    ) {
       // console.error("Please provide valid booking details");
       window.alert("Please provide valid booking details");
       return;
     }
-  
+
     const isConfirmed = window.confirm("Do you want to confirm the booking?");
-  
+
     if (isConfirmed) {
       try {
-        const response = await fetch("http://localhost:3005/bookings/createBooking", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            slot_id: restaurantData.id,
-            num_guests: numberOfGuests,
-            booking_date: selectedDate,
-            contact_number: phoneNumber, // Add the contact number to the request
-          }),
-        });
-  
+        const customer_id = localStorage.getItem("user_id");
+        const customer_name = localStorage.getItem("user_name");
+        const response = await fetch(
+          "http://localhost:3005/bookings/createBooking",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              // slot_id: restaurantData.id,
+              customer_id: customer_id,
+              customer_name: customer_name,
+              num_guests: numberOfGuests,
+              booking_date: selectedDate,
+              contact_number: phoneNumber, // Add the contact number to the request
+            }),
+          }
+        );
+
         if (!response.ok) {
           throw new Error(`Failed to create booking: ${response.statusText}`);
         }
-  
+
         console.log("Booking created successfully");
-  
+
         navigate("/BookingConfirmation");
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error creating booking:", error);
         // Handle error, show an error message, etc.
       }
@@ -98,7 +115,6 @@ const RestaurantDetails = () => {
       console.log("User chose to modify the booking");
     }
   };
-  
 
   if (!restaurantData) {
     return (
@@ -130,7 +146,9 @@ const RestaurantDetails = () => {
               Cuisine: {restaurantData.cuisine_type}
             </p>
 
-            <p className="restaurant-info">Location: {restaurantData.location}</p>
+            <p className="restaurant-info">
+              Location: {restaurantData.location}
+            </p>
 
             <div className="booking-section">
               <label htmlFor="date">Select Date:</label>
@@ -159,13 +177,16 @@ const RestaurantDetails = () => {
                 ))}
               </select>
 
-
               <label htmlFor="guests">Number of Guests:</label>
               <input
                 type="number"
                 id="guests"
                 value={numberOfGuests}
-                onChange={(e) => setNumberOfGuests(Math.max(1, Math.min(4, parseInt(e.target.value, 10))))}
+                onChange={(e) =>
+                  setNumberOfGuests(
+                    Math.max(1, Math.min(4, parseInt(e.target.value, 10)))
+                  )
+                }
                 min="1"
                 max="4"
               />
@@ -193,4 +214,3 @@ const RestaurantDetails = () => {
 };
 
 export default RestaurantDetails;
-

@@ -50,53 +50,6 @@ body {
 }
 
 
-form {
-  display:flex;
-}
-
-.search-bar input {
-  padding: 5px;
-  height: 25%;
-  border-radius: 10px;
-  margin-right: 10px;
-  margin-top: 5px;
-  width: 350px;
-  border: 1px solid #ccc; /* Add styling for the input field */
-  
-}
-
-.search-bar button {
-  border-radius: 10px;
-  padding: 5px 10px;
-  background-color: #ff6600; /* Add styling for the button */
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  margin-top: 5px;
-  height: 25%;
-  margin-right: 20px;
-  position: relative;
-  transition: color 0.3s;
-  justify-content: space-between;
-  /* width: 100%; */
-}
-
-.search-bar button:hover {
-  color:transparent;
-  background-color: transparent;
-}
-
-.search-bar button:hover::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: url("D:\edproject\react\eazy\src\images\search.png") no-repeat;
-  width: 35px; /* Adjust the width of the logo */
-  height: 35px; /* Adjust the height of the logo */
-  background-size: cover;
-}
 
 
 /* Header styles */
