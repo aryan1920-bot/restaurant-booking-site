@@ -19,24 +19,24 @@ const Footer = () => {
       <section>
         <h2 className='fields'>Email Addresses</h2>
         <p>
-          General Inquiries: <a href="mailto:help@eazydiner.com">help@eazydiner.com</a>
+          General Inquiries: <a href="mailto:help@savouryseats.com">help@savouryseats.com</a>
         </p>
         <p>
-          Support: <a href="mailto:support@eazydiner.com">support@eazydiner.com</a>
+          Support: <a href="mailto:support@savouryseats.com">support@savouryseats.com</a>
         </p>
       </section>
 
       <section>
         <h2 className='fields'>Social Media</h2>
         <p>
-          Instagram: <a href="https://www.instagram.com/eazydiner" target="_blank" rel="noopener noreferrer">@eazydiner</a>
+          Instagram: <a href="https://www.instagram.com/savouryseats" target="_blank" rel="noopener noreferrer">@savouryseats</a>
         </p>
         <p>
-          X: <a href="https://twitter.com/eazydiner" target="_blank" rel="noopener noreferrer">@eazydiner</a>
+          X: <a href="https://twitter.com/savouryseats" target="_blank" rel="noopener noreferrer">@savouryseats</a>
         </p>
       </section>
       <div className='copy'>
-        <p>&copy; {currentYear} Eazydiner</p>
+        <p>&copy; {currentYear} SavourySeats</p>
       </div>
     </footer>
   );
