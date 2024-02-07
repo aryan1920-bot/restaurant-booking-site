@@ -1,25 +1,40 @@
 const asyncHandler = require('express-async-handler');
-const { Slot, Restaurants } = require('../models');
+const { Restaurants, Slot } = require('../models');
 
-const getSlotById = async (req, res) => {
+const getAllSlotsByRestaurantId = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { restaurantId } = req.params;
 
-    const slot = await Slot.findByPk(id, {
-      include: Restaurants // Assuming the association is named 'Restaurants'
-    });
+    // Find the restaurant by its ID
+    const restaurant = await Restaurants.findByPk(restaurantId);
 
-    if (!slot) {
-      return res.status(404).json({ error: 'Slot not found' });
+    if (!restaurant) {
+      return res.status(404).json({ error: 'Restaurant not found' });
     }
 
-    res.status(200).json(slot);
+    // Find all slots associated with the restaurant
+    const slots = await Slot.findAll({ where: { restaurant_id: restaurantId } });
+
+    // Construct the response JSON object
+    const response = {
+      Restaurant: {
+        id: restaurant.id,
+        name: restaurant.name,
+        image: restaurant.image,
+        location: restaurant.location,
+        cuisine_type: restaurant.cuisine_type,
+        createdAt: restaurant.createdAt,
+        updatedAt: restaurant.updatedAt
+      },
+      Slots: slots
+    };
+
+    res.json(response);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching slots:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 module.exports = {
-  getSlotById
+  getAllSlotsByRestaurantId
 };

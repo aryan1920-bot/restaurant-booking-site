@@ -1,35 +1,25 @@
 // Header.js
-
 import React, { useState } from "react";
-import "./css/Header.css"; 
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
-
+import "./css/Header.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const [isBookingsHovered, setIsBookingsHovered] = React.useState(false);
-  const [isContactUsHovered, setIsContactUsHovered] = React.useState(false);
-  const [isLogoutHovered, setIsLogoutHovered] = React.useState(false);
+  const token = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
 
-  
   const scrollToContact = () => {
     const contactSection = document.getElementById("contact");
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: "smooth" });
     }
   };
-  
-  const navigate =useNavigate();
-  const logout=()=>{
+
+  const logout = () => {
+    localStorage.clear();
     navigate('/');
-  }
-
-  const [searchQuery, setSearchQuery] = useState("");
-
-  
+  };
 
   return (
     <header className="header">
@@ -37,10 +27,8 @@ const Header = () => {
         <h1 className="brand">Eazydiner</h1>
       </Link>
 
-      
       <nav className="nav">
         <ul>
-        
           <li>
             <a
               href="#"
@@ -59,9 +47,8 @@ const Header = () => {
               onClick={logout}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-
             >
-              LogOut
+              {token ? "Log out" : "Sign up"}
             </a>
           </li>
         </ul>

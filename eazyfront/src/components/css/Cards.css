@@ -5,6 +5,10 @@
   /* padding:10px 10px 10px 10px; */
   color:#f95700;
   /* background-color: #fff;*/
+  justify-content: center;
+  align-items: center;
+  /* display: flex; */
+  /* display: block; */
 }
 
 .restaurant-card:hover {

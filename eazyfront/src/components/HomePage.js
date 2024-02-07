@@ -4,50 +4,55 @@ import "./css/HomePage.css";
 import RestaurantCard from "./card";
 import Footer from "./Footer";
 import Header from "./Header";
-import salad from "../images/salad.png";
+// import salad from "../images/salad.png";
 import Items from "./items";
 import RestaurantDetails from "./RestaurantDetails";
 import { Link } from 'react-router-dom';
 
 
 const HomePage = () => {
-  const [restaurantIds, setRestaurantIds] = useState([]);
 
-  const [isHovered, setIsHovered] = React.useState(false);
-
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-
+  const [topRecommendedRestaurants, setTopRecommendedRestaurants] = useState([]);
+  const [isHovered, setIsHovered] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [userName, setUserName] = useState("");
 
   const handlemeal=()=>{
     window.alert("Feature coming soon");
   }
 
-  const userName = localStorage.getItem("user_name");
+  useEffect(() => {
+    // Fetch the list of top recommended restaurants
+    fetch("http://localhost:3005/restaurants/select")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch top recommended restaurants');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setTopRecommendedRestaurants(data);
+      })
+      .catch(error => {
+        console.error('Error fetching top recommended restaurants:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const userName = localStorage.getItem("user_name");
+    setUserName(userName);
+  }, []);
 
   return (
     <div className="home-container">
+      
       <Header/>
+
+      
       <div className="content">
         <h2>{userName ? `WELCOME ${userName.toUpperCase()} !!` : "WELCOME FOODIE !!"}</h2>
-        {/* <div className="search-bar">
-          <form onSubmit={handleSearchSubmit}>
-            <input
-              type="text"
-              placeholder="Search by Cuisine, Restaurant, or Location..."
-              value={searchQuery}
-              onChange={handleSearchInputChange}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              className="bar"
-            />
-            <button type="submit">Search</button>
-          </form>
-        </div> */}
         <div className="offer-section">
-          <img src={salad} alt="Special Offer" className="salad" />
+          <img src="https://i.ibb.co/Tgg83vQ/salad.png" alt="Special Offer" className="salad" />
         </div>
         <h4>What's your pick for today ?</h4>
         <div className="meal-tabs">
@@ -58,7 +63,7 @@ const HomePage = () => {
             onMouseLeave={() => setIsHovered(false)}
             onClick={handlemeal}
           >
-            Near me
+            &#x1F4CC; Near me &#x1F4CC;
           </button>
           <button
             className="meal-btn"
@@ -67,7 +72,7 @@ const HomePage = () => {
             onMouseLeave={() => setIsHovered(false)}
             onClick={handlemeal}
           >
-            Breakfast
+           🍳 Breakfast 🍳
             
           </button>
           <button
@@ -77,7 +82,7 @@ const HomePage = () => {
             onMouseLeave={() => setIsHovered(false)}
             onClick={handlemeal}
           >
-            Lunch
+            🍱 Lunch 🍱
           </button>
           <button
             className="meal-btn"
@@ -85,8 +90,8 @@ const HomePage = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={handlemeal}
-          >
-            Dinner
+          > 
+            🍲 Dinner 🍲
           </button>
           <button
             className="meal-btn"
@@ -95,12 +100,32 @@ const HomePage = () => {
             onMouseLeave={() => setIsHovered(false)}
             onClick={handlemeal}
           >
-            Bar/Pub
+           🍻 Bar 🍻
+          </button>
+
+          <button
+            className="meal-btn"
+            data-tooltip="Bar/pub"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={handlemeal}
+          >
+           🍷 Pub 🍷
+          </button>
+
+          <button
+            className="meal-btn"
+            data-tooltip="Bar/pub"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={handlemeal}
+          >
+           🍽️ Buffet 🍽️
           </button>
         </div>
         <h4>Top recommended restaurants !!</h4>
         <div className="card-container">
-          <Items />
+        <Items allRestaurants={topRecommendedRestaurants} />  {/* Pass top recommended restaurants as prop */}
         </div>
       </div>
       <Footer />

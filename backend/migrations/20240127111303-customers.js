@@ -3,10 +3,10 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
-    const tableDescription = await queryInterface.describeTable('customers');
+    const tableDescription = await queryInterface.describeTable('Customers');
 
     // Define the existing table structure in the up function
-    await queryInterface.createTable('customers', {
+    await queryInterface.createTable('Customers', {
       // Define each column based on its name and definition
       id: {
         type: Sequelize.INTEGER,
@@ -29,16 +29,18 @@ module.exports = {
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
+        timestamps: true,
       },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
+        timestamps: true,
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
     // Drop the 'customers' table if the migration needs to be reverted
-    await queryInterface.dropTable('customers');
+    await queryInterface.dropTable('Customers');
   },
 };

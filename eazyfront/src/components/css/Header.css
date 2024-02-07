@@ -2,8 +2,8 @@
   /* margin-bottom: 18px; */
   width: 100%;
   padding: 10px ;
-  background-color: #fec18b; /* Cyan background color */
-  color: #ff6600; /* White text color */
+  background-color: rgb(255, 140, 39); /* Cyan background color */
+  color: #ff4d00; /* White text color */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,6 +19,7 @@
   font-family: 'Bangers', cursive;
   font-size: 2rem;
   margin: 0;
+  color:#ffffff;
   padding: 10px 10px;
 }
 
@@ -33,57 +34,41 @@
     ;
   }
 
-  .nav-link {
-    color: #ff0000; /* White text color */
-    text-decoration: none;
-    transition: color 0.3s; /* Smooth transition effect */
-    padding: 10px 10px 10px 10px;
-    position: fixed;
-  }
-
   .nav-link1 {
-    color: #ff0000; /* White text color */
+    /*contact*/
+    
+    color: #fffefe; /* White text color */
     text-decoration: none;
-    transition: color 0.3s; /* Smooth transition effect */
+    transition: color 0.1s; /* Smooth transition effect */
     padding: 10px 10px 10px 10px;
     position: relative;
   }
 
   .nav-link2 {
-    color: #ff0000; /* White text color */
+    border-radius: 10px;
+    background-color: white;
+    color: #ff7300; /* White text color */
     text-decoration: none;
-    transition: color 0.3s; /* Smooth transition effect */
+    transition: color 0.1s; /* Smooth transition effect */
     padding: 10px 10px 10px 10px;
     position: relative;
   }
-  .nav-link:hover {
-    color: transparent;
-  }
+
   .nav-link1:hover {
     color: transparent; /* Orange text color on hover */
   }
   .nav-link2:hover {
+    background-color: transparent;
     color: transparent; /* Orange text color on hover */
   }
 
-  .nav-link:hover::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: url("D:\edproject\react\eazy\src\images\clock.png") no-repeat;
-    width: 35px; /* Adjust the width of the logo */
-    height: 35px; /* Adjust the height of the logo */
-    background-size: cover;
-  }
   .nav-link1:hover::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: url("D:\edproject\react\eazy\src\images\phone.png") no-repeat;
+    background: url("https://i.ibb.co/jkDNGWS/phone.png") no-repeat;
     width: 35px; /* Adjust the width of the logo */
     height: 35px; /* Adjust the height of the logo */
     background-size: cover;
@@ -94,7 +79,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: url("D:\edproject\react\eazy\src\images\log.png") no-repeat;
+    background: url("https://i.ibb.co/25tQPz8/log.png") no-repeat;
     width: 35px; /* Adjust the width of the logo */
     height: 35px; /* Adjust the height of the logo */
     background-size: cover;

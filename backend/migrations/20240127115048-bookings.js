@@ -2,9 +2,9 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const tableDescription = await queryInterface.describeTable('bookings');
+    const tableDescription = await queryInterface.describeTable('Bookings');
 
-    await queryInterface.createTable('bookings', {
+    await queryInterface.createTable('Bookings', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -44,11 +44,12 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
         field: 'created_at',
+        timestamps: true,
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('bookings');
+    await queryInterface.dropTable('Bookings');
   },
 };

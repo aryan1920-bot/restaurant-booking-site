@@ -29,7 +29,11 @@
 
 .row {
   display: flex;
-  /* justify-content: space-around; */
+  justify-content:center;
+  margin-bottom: 10px;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .my-3 {
@@ -40,6 +44,7 @@
   font-style: normal;
   margin-top: 10px;
   margin-bottom: 3rem;
+  justify-content: center;
 }
 
 .btn-danger {
@@ -55,22 +60,34 @@
 
 form {
   display:flex;
+  /* align-items: center; */
+  /* position:fixed; */
+
+  justify-content: center;
+}
+
+.search-bar {
+  padding: 25px;
+  justify-content: center;
+  align-items: center;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .search-bar input {
-  padding: 5px;
+  /* padding: 5px; */
   height: 25%;
   border-radius: 10px;
   margin-right: 10px;
   margin-top: 5px;
-  width: 350px;
+  width: 400px;
   border: 1px solid #ccc; /* Add styling for the input field */
   
 }
 
 .search-bar button {
   border-radius: 10px;
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   background-color: #ff6600; /* Add styling for the button */
   color: #fff;
   border: none;
@@ -95,23 +112,55 @@ form {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: url("D:\edproject\react\eazy\src\images\search.png") no-repeat;
+  background: url("https://i.ibb.co/PYtMX9c/search.png") no-repeat;
   width: 35px; /* Adjust the width of the logo */
   height: 35px; /* Adjust the height of the logo */
   background-size: cover;
 }
 
 .search-bar {
-  display: block;
+  /* display: block; */
   margin-top: 20px;
-  align-items: center;
-  margin-left: 65px;
+  justify-content:center;
+  /* align-items: center; */
+  margin-left: 35px;
+  margin-bottom: -10px;
 }
 
-.col-md-3{
-  padding: auto;
-  margin:45px;
+.col-md-3 {
+  margin-top: 20px;
+  box-sizing: border-box;
   display: flex;
+  justify-content: center;
+  /* padding: auto; */
+  margin-left: 20px;
+  /* gap:20px; */
+  flex-wrap: wrap;
   align-items: center;
-  gap: 20px;
+  
+}
+
+.flex-45 {
+  flex: 0 0 45%;
+}
+
+.flex-25 {
+  flex: 0 0 25%;
+}
+
+
+.btn-primary {
+  background-color: #007bff; /* Use your primary color */
+  color: #fff; /* Text color */
+  border: none;
+  text-shadow:none;
+}
+
+/* Add hover effect to the "See all" button */
+.btn:hover {
+
+  text-decoration:wavy;
+  background-color: transparent;
+  color: #007bff ;
+  /* opacity: 0.8; Adjust the opacity as needed */
 }

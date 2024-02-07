@@ -1,13 +1,17 @@
 //signup
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/login.css";
 import Footer from "./Footer";
+import Header from "./Header";
 
 const Signup = () => {
   const navigate = useNavigate();
 
-
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -47,14 +51,21 @@ const Signup = () => {
     }
   };
 
+
   const alreadyuser=()=>{
     navigate("/login");
   }
 
   return (
+    <div>
+      <Header/>
+      <div
+          className="background-container"
+          style={{ backgroundImage: `url(https://i.ytimg.com/vi/BnggSSaharc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDCPX6or-vnsPUPgPl3Ntb9yTH82Q)` }}
+        ></div>
     <div className="login-container">
       <div className="company">
-        <h1>Eazydiner</h1>
+        {/* <h1>Eazydiner</h1> */}
       </div>
       <div className="login-c">
         <div className="login">
@@ -95,12 +106,13 @@ const Signup = () => {
           Already have an account? <span onClick={alreadyuser}>Log in</span>
         </div>
         <div className="submit-c">
-          <div className="submit" onClick={handleSignup}>
+          <div className="submit" onClick={handleSignup} tabIndex={0} role="button">
             Sign Up
           </div>
         </div>
       </div>
       <Footer />
+    </div>
     </div>
   );
 };

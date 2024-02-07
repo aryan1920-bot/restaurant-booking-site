@@ -1,9 +1,10 @@
-const { Customer, Booking ,Slot, Inventory } = require('../models');
+const moment = require('moment-timezone');
+const { Customer, Booking, Slot, Inventory } = require('../models');
 const verifyToken = require('../middleware/authmiddleware');
 
 const createBooking = async (req, res) => {
   try {
-    const { slot_id,customer_id,num_guests, contact_number, booking_date } = req.body;
+    const { slot_id, customer_id, num_guests, contact_number, booking_date } = req.body;
 
     // Assuming customer_id is a foreign key linking to Customers table
     const customer = await Customer.findByPk(customer_id);
@@ -13,21 +14,20 @@ const createBooking = async (req, res) => {
     }
 
     // Validate booking date
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    const bookingDateObj = new Date(booking_date);
-
-    if (bookingDateObj < today) {
+    const today = moment().tz('Asia/Kolkata').startOf('day'); // Get current date in Indian time zone
+    const bookingDateObj = moment.tz(booking_date, 'YYYY-MM-DD HH:mm:ss', 'Asia/Kolkata');
+    console.log(bookingDateObj);
+    if (bookingDateObj.isBefore(today)) {
       return res.status(400).json({ error: 'Booking date cannot be before today' });
     }
 
     const booking = await Booking.create({
       slot_id,
       customer_id,
-      customer_name: customer.name, 
+      customer_name: customer.name,
       contact_number,
       num_guests,
-      booking_date,
+      booking_date: booking_date, 
     });
 
     const slot = await Slot.findByPk(booking.slot_id);
@@ -55,8 +55,6 @@ const createBooking = async (req, res) => {
     // Deduct quantity by 1
     const updatedQuantity = inventory.quantity - 1;
     await inventory.update({ quantity: updatedQuantity });
-
-
 
     console.log(booking.toJSON());
 

@@ -7,27 +7,31 @@ import Footer from "./Footer";
 const RestaurantDetails = () => {
   const [restaurantData, setRestaurantData] = useState(null);
   const [data, setData] = useState(null);
-  const [selectedDate, setSelectedDate] = useState("");
+  const currentDate = new Date().toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(currentDate);
   const [selectedSlot, setSelectedSlot] = useState("");
   const [numberOfGuests, setNumberOfGuests] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [dateError, setDateError] = useState("");
+  const [slotError, setSlotError] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [isPopupVisible, setPopupVisible] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const currentDate = new Date().toISOString().split("T")[0];
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 3);
+  const formattedMaxDate = maxDate.toISOString().split("T")[0];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3005/slots/${id}`
-        );
+        const response = await fetch(`http://localhost:3005/slots/${id}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
         const data = await response.json();
         setData(data);
         console.log("Fetched data:", data);
-        
 
         setRestaurantData(data.Restaurant);
       } catch (error) {
@@ -39,89 +43,124 @@ const RestaurantDetails = () => {
   }, []);
 
   const generateTimeSlots = () => {
-    const currentDate = new Date();
-    const startTime = new Date(currentDate);
-    startTime.setHours(9, 0, 0); // Set start time to 09:00:00
-
-    const endTime = new Date(currentDate);
-    endTime.setHours(18, 0, 0); // Set end time to 21:00:00
-
-    const timeSlots = [];
-    let currentTime = new Date(startTime);
-
-    while (currentTime <= endTime) {
-      timeSlots.push(
-        currentTime.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      );
-      currentTime.setHours(currentTime.getHours() + 1);
-    }
-
+    const timeSlots = data?.Slots.map((slot) => slot.start_time) || [];
     return timeSlots;
   };
 
   const timeSlots = generateTimeSlots();
 
   const handleBookNowClick = async () => {
-    if (
-      !selectedDate ||
-      !selectedSlot ||
-      phoneNumber < 1000000000
-    ) {
-      // console.error("Please provide valid booking details");
-      window.alert("Please provide valid booking details");
-      return;
+    setDateError("");
+    setSlotError("");
+    setPhoneNumberError("");
+
+    let isErrorsPresent = false;
+
+    if (!selectedDate) {
+      setDateError("Not valid date");
+      isErrorsPresent = true;
     }
 
-    const isConfirmed = window.confirm("Do you want to confirm the booking?");
+    if (!selectedSlot) {
+      setSlotError("Not valid slot");
+      isErrorsPresent = true;
+    }
 
-    if (isConfirmed) {
-      try {
-        const customer_id = localStorage.getItem("user_id");
-        const customer_name = localStorage.getItem("user_name");
-        const token=localStorage.getItem("accessToken");
-        const response = await fetch(
-          "http://localhost:3005/bookings/createBooking",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "authorization": `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              slot_id: data.id,
-              customer_id: customer_id,
-              customer_name: customer_name,
-              num_guests: numberOfGuests,
-              booking_date: selectedDate,
-              contact_number: phoneNumber,
-            }),
-          },
-          // console.log({token})
-        );
+    if (!phoneNumber || phoneNumber.length !== 10 || isNaN(phoneNumber)) {
+      setPhoneNumberError("not valid contact");
+      isErrorsPresent = true;
+    }
 
-        if (!response.ok) {
-          throw new Error(`Failed to create booking: ${response.statusText}`);
-        }
-
-        console.log("Booking created successfully");
-
-        navigate("/BookingConfirmation", {
-          state: {
-            bookingDetails: {
-              restaurantName: restaurantData.name,
-              selectedDate: selectedDate,
-              selectedSlot: selectedSlot,
-            },
-          },
-        });
-      } catch (error) {
-        console.error("Error creating booking:", error);
-      }
+    if (isErrorsPresent) {
+      setPopupVisible(false);
     } else {
-      console.log("User chose to modify the booking");
+      setPopupVisible(true);
+    }
+  };
+
+  const handleModifyBooking = () => {
+    setPopupVisible(false);
+  };
+
+  const handleConfirmBooking = async () => {
+    try {
+      const customer_id = localStorage.getItem("user_id");
+      const customer_name = localStorage.getItem("user_name");
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        navigate("/");
+        return;
+      }
+
+      // First API call to create entry
+      const createEntryResponse = await fetch(
+        "http://localhost:3005/inventories/createEntry",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            restaurant_id: restaurantData.id,
+            slot_id: data?.Slots.find(
+              (slot) => slot.start_time === selectedSlot
+            )?.id,
+            date: selectedDate,
+            numberOfGuests: numberOfGuests,
+          }),
+        }
+      );
+
+      if (!createEntryResponse.ok) {
+        throw new Error(
+          `Failed to create entry: ${createEntryResponse.statusText}`
+        );
+      }
+
+      const createEntryData = await createEntryResponse.json();
+      const slotId = createEntryData.slot_id;
+
+      // Second API call to create booking
+      const createBookingResponse = await fetch(
+        "http://localhost:3005/bookings/createBooking",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            slot_id: slotId,
+            customer_id: customer_id,
+            customer_name: customer_name,
+            contact_number: phoneNumber,
+            num_guests: numberOfGuests,
+            booking_date: selectedDate,
+          }),
+        }
+      );
+
+      if (!createBookingResponse.ok) {
+        throw new Error(
+          `Failed to create booking: ${createBookingResponse.statusText}`
+        );
+      }
+
+      console.log("Booking created successfully");
+
+      navigate("/BookingConfirmation", {
+        state: {
+          bookingDetails: {
+            restaurantName: restaurantData.name,
+            selectedDate: selectedDate,
+            selectedSlot: selectedSlot,
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Error creating booking:", error);
     }
   };
 
@@ -143,6 +182,15 @@ const RestaurantDetails = () => {
     <div>
       <Header />
       <div className="bgbg">
+        {/* <div
+          className="background-container"
+          style={{ backgroundImage: `url(${restaurantData.image})` }}
+        ></div> */}
+
+        <div
+          className="background-container"
+          style={{ backgroundImage: `url(https://c.ndtvimg.com/2023-11/c4bp49g_restaurant-generic_625x300_21_November_23.jpg?im=FeatureCrop,algorithm=dnn,width=1200,height=738)` }}
+        ></div>
         <div className="restaurant-details-container">
           <div className="restaurant-details">
             <img
@@ -167,8 +215,10 @@ const RestaurantDetails = () => {
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 min={currentDate}
+                // max={formattedMaxDate}
                 className="ip"
               />
+              <span className="error-message">{dateError}</span>
 
               <label htmlFor="slot">Select Slot:</label>
               <select
@@ -185,6 +235,8 @@ const RestaurantDetails = () => {
                   </option>
                 ))}
               </select>
+
+              <span className="error-message">{slotError}</span>
 
               <label htmlFor="guests">Number of Guests:</label>
               <input
@@ -210,6 +262,8 @@ const RestaurantDetails = () => {
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 className="ip"
               />
+              <span className="error-message">{phoneNumberError}</span>
+
               <button className="book-now-btn" onClick={handleBookNowClick}>
                 Book Now
               </button>
@@ -218,6 +272,38 @@ const RestaurantDetails = () => {
         </div>
         <Footer />
       </div>
+      {isPopupVisible && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>
+              <strong>Booking Details</strong>
+            </h2>
+            <p style={{ textAlign: "justify" }}>
+              Restaurant: <strong>{restaurantData.name}</strong>
+            </p>
+            <p style={{ textAlign: "justify" }}>
+              Date: <strong>{selectedDate}</strong>
+            </p>
+            <p style={{ textAlign: "justify" }}>
+              Slot:<strong> {selectedSlot}</strong>
+            </p>
+            <p style={{ textAlign: "justify" }}>
+              Guests: <strong>{numberOfGuests}</strong>
+            </p>
+            <p style={{ textAlign: "justify" }}>
+              Phone Number: <strong>{phoneNumber}</strong>
+            </p>
+            <div className="popup-buttons">
+              <button onClick={handleModifyBooking} className="cancel">
+                Cancel
+              </button>
+              <button onClick={handleConfirmBooking} className="confirm">
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

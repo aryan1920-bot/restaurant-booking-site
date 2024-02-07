@@ -2,9 +2,9 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const tableDescription = await queryInterface.describeTable('inventories');
+    const tableDescription = await queryInterface.describeTable('Inventories');
 
-    await queryInterface.createTable('inventories', {
+    await queryInterface.createTable('Inventories', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -30,20 +30,26 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
         field: 'created_at',
+        timestamps: true,
       },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
         field: 'updated_at',
+        timestamps: true,
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('inventories');
+    await queryInterface.dropTable('Inventories');
   },
 };

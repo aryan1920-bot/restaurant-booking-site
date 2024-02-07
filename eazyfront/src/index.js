@@ -1,12 +1,15 @@
-// index.js
-
+// index.js or App.js
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './components/css/HomePage.css';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 
-// Use createRoot instead of ReactDOM.render
 const root = createRoot(document.getElementById('root'));
 
-// Wrap your app component with the root
-root.render(<React.StrictMode><App /></React.StrictMode>);
+root.render(
+  <React.StrictMode>
+    <Router>
+      <App />
+    </Router>
+  </React.StrictMode>
+);

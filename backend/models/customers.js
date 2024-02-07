@@ -22,11 +22,13 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.DATE,
           alloNull:false,
           field:"created_at",
+          timestamps: true,
         },
         updatedAt: {
           type: DataTypes.DATE,
           alloNull:false,
           field:" updated_at",
+          timestamps: true,
         },
       });
 
