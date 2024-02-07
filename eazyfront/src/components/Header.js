@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <header className="header">
       <Link to="/home" style={{ textDecoration: "none", color: "#ff7700" }}>
-        <h1 className="brand">Eazydiner</h1>
+        <h1 className="brand">SavourySeats  </h1>
       </Link>
 
       <nav className="nav">
