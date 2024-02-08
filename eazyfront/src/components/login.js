@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/login.css";
 import Footer from "./Footer";
@@ -7,12 +7,17 @@ import Header from "./Header";
 const Login = () => {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleEmailValidation = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,17 +26,14 @@ const Login = () => {
   };
 
   const handleFormChange = (e) => {
-    if (e.target.name === 'email') {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === 'password') {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-      });
-    }
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const newuser = () => {
@@ -40,9 +42,7 @@ const Login = () => {
 
   const gotohome = async () => {
     if (!isEmailValid) {
-      console.log('Invalid email');
-      // You can set a state to display the message in the container
-      // For simplicity, I'm using a console.log here
+      console.log("Invalid email");
       return;
     }
 
@@ -51,7 +51,7 @@ const Login = () => {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -63,12 +63,10 @@ const Login = () => {
 
       const responseData = await response.json();
 
-      // Store the access token in localStorage
       localStorage.setItem("accessToken", responseData.meta.AccessToken);
       localStorage.setItem("user_id", responseData.customer.customer_id);
       localStorage.setItem("user_name", responseData.customer.customer_name);
 
-      // Navigate to the "/home" page
       navigate("/home");
     } catch (error) {
       console.error("Error during login:", error);
@@ -77,58 +75,70 @@ const Login = () => {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <div
-          className="background-container"
-          style={{ backgroundImage: `url(https://i.ytimg.com/vi/BnggSSaharc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDCPX6or-vnsPUPgPl3Ntb9yTH82Q)` }}
-        ></div>
-    <div className="login-container">
-      
-      <div className="company">
+        className="background-container"
+        style={{
+          backgroundImage: `url(https://i.ytimg.com/vi/BnggSSaharc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDCPX6or-vnsPUPgPl3Ntb9yTH82Q)`,
+        }}
+      ></div>
+      <div className="login-container">
+        <div className="company"></div>
+        <div className="login-c">
+          <div className="login">
+            <div className="text">Log in</div>
+          </div>
+          <div className="inputs">
+            <div className="input">
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={formData.email}
+                onBlur={handleEmailValidation}
+                onChange={handleFormChange}
+              />
+              {!isEmailValid && (
+                <span className="error-message">Invalid email</span>
+              )}
+            </div>
+            <div className="input">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleFormChange}
+              />
+              <span
+                className="password-toggle"
+                onClick={togglePasswordVisibility}
+              >
+                <img
+                  src={
+                    showPassword
+                      ? "https://i.ibb.co/NxZKCyB/hide.png"
+                      : "https://i.ibb.co/s99wjwC/show.png"
+                  }
+                  alt={showPassword ? "Hide" : "Show"}
+                />
+              </span>
+            </div>
+          </div>
+          <div className="forgot-password">
+            Forgot Password? <span>Click here</span>
+          </div>
+          <div className="forgot-password">
+            New user? <span onClick={newuser}>Sign up</span>
+          </div>
+          <div className="submit-c">
+            <div className="submit" onClick={gotohome}>
+              Log in
+            </div>
+          </div>
+        </div>
+        <Footer />
       </div>
-      <div className="login-c">
-        <div className="login">
-          <div className="text">Log in</div>
-        </div>
-        <div className="inputs">
-          <div className="input">
-            <input
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={formData.email}
-              onBlur={handleEmailValidation}
-              onChange={handleFormChange}
-            />
-            {!isEmailValid && <span className="error-message">Invalid email</span>}
-          </div>
-          <div className="input">
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={formData.password}
-              onChange={handleFormChange}
-            />
-          </div>
-        </div>
-        <div className="forgot-password">
-          Forgot Password? <span>Click here</span>
-        </div>
-        <div className="forgot-password">
-          New user? <span onClick={newuser}>Sign up</span>
-        </div>
-        <div className="submit-c">
-          <div
-            className="submit"
-            onClick={gotohome}
-          >
-            Log in
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </div>
     </div>
   );
 };

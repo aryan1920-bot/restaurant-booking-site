@@ -7,6 +7,7 @@ import Header from "./Header";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     localStorage.clear();
@@ -56,6 +57,10 @@ const Signup = () => {
     navigate("/login");
   }
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
     <div>
       <Header/>
@@ -100,6 +105,19 @@ const Signup = () => {
               value={formData.password}
               onChange={handleFormChange}
             />
+            <span
+                className="password-toggle"
+                onClick={togglePasswordVisibility}
+              >
+                <img
+                  src={
+                    showPassword
+                      ? "https://i.ibb.co/NxZKCyB/hide.png"
+                      : "https://i.ibb.co/s99wjwC/show.png"
+                  }
+                  alt={showPassword ? "Hide" : "Show"}
+                />
+              </span>
           </div>
         </div>
         <div className="forgot-password">
